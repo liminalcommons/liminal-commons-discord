@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Server API port
+      - "8080:8080"  # Client app port
+    environment:
+      - NODE_ENV=production
+      - VITE_DISCORD_CLIENT_ID=${VITE_DISCORD_CLIENT_ID}
+      - DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}
+      - DISCORD_WEBHOOK_SECRET=${DISCORD_WEBHOOK_SECRET}
+      - CLOUDFLARE_TUNNEL_URL=${CLOUDFLARE_TUNNEL_URL}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    restart: unless-stopped
+    depends_on:
+      - app
