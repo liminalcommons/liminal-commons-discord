@@ -1,0 +1,24 @@
+{
+  "name": "liminal-commons-discord",
+  "version": "0.1.0",
+  "description": "Discord-integrated multiplayer platform for Liminal Commons",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm run --filter \"./packages/**\" --parallel dev",
+    "build": "pnpm run --filter \"./packages/**\" build",
+    "start": "node packages/server/dist/index.js",
+    "tunnel": "cloudflared tunnel --url http://localhost:3000"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "author": "Liminal Commons",
+  "license": "UNLICENSED",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
